@@ -164,13 +164,13 @@ public class TicTacToeModel {
         /* Check the squares of the board to see if the specified mark is the
            winner */
         
-        boolean verticalWinCondition = true;
-        int colCounter = 0;
+        
+        
         for (int i = 0; i < getWidth(); i++){
-            while (verticalWinCondition == true){
+            int colCounter = 0;
                 for(int j = 0; j < getWidth(); j++){
                     if (getMark(i,j) != mark){
-                        verticalWinCondition = false;
+                        break;
                     }
                     else{
                         colCounter++;
@@ -179,15 +179,15 @@ public class TicTacToeModel {
                         return true;
                     }
                 }   
-            }
+            
         }
-        boolean horizontalWinCondition = true;
-        int rowCounter = 0;
+     
+        
         for (int i = 0; i < getWidth(); i++){
-            while (horizontalWinCondition == true){
+            int rowCounter = 0;
                 for(int j= 0; j < getWidth(); j++){
                     if (getMark(j,i) != mark){
-                        horizontalWinCondition = false;
+                        break;
                     }
                     else{
                         rowCounter++;
@@ -196,7 +196,7 @@ public class TicTacToeModel {
                         return true;
                     }
                 }
-            }
+            
         }
 
         int forDiag = 0;
@@ -285,14 +285,15 @@ public class TicTacToeModel {
         for(int i = 0; i < getWidth(); i++){
             output.append(i);
         }
-        System.out.println("\n");
+        output.append("\n");
         int marginNumber = -1;
         for(int i = 0; i < getWidth(); i++){
             marginNumber++;
-            output.append("\n" + marginNumber + " ");
+            output.append( marginNumber + " ");
             for(int j = 0; j < getWidth(); j++){
                 output.append(board[i][j]);
             }
+            output.append("\n");
         }
         return output.toString();
         
