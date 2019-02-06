@@ -1,8 +1,12 @@
 package edu.jsu.mcis;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class TicTacToeController {
+public class TicTacToeController implements ActionListener{
 
-    private final TicTacToeModel model;
+    public final TicTacToeModel model;
     private final TicTacToeView view;
     private TicTacToeMove move;
     
@@ -13,34 +17,36 @@ public class TicTacToeController {
         /* Initialize model, view, and width */
 
         model = new TicTacToeModel(width);
-        view = new TicTacToeView();
+        view = new TicTacToeView(this,width);
         
-    }
+    }  
 
-    public void start() {
+    public String getMarkAsString(int row, int col) {        
+        return (model.getMark(row, col).toString());        
+    }
     
-        /* MAIN LOOP (repeats until game is over) */
-
-        /* Display the board using the View's "showBoard()", then use
-           "getNextMove()" to get the next move from the player.  Enter
-           the move (using the Model's "makeMark()", or display an error
-           using the View's "showInputError()" if the move is invalid. */
-        boolean gameOver = false;
-        while (gameOver == false){
-            view.showBoard(model.toString());
-            move = view.getNextMove(model.isXTurn());
-            model.makeMark(move.getRow(),move.getCol());
-            if (model.getResult().equals(TicTacToeModel.Result.X)||model.getResult().equals(TicTacToeModel.Result.O)){
-                gameOver = true;
-            }
-        }    
-
-        /* After the game is over, show the final board and the winner */
-
-        view.showBoard(model.toString());
-
-        view.showResult(model.getResult().toString());
-        
+    public TicTacToeView getView() {        
+        return view;        
     }
 
+    @Override
+    public void actionPerformed(ActionEvent event) {
+      
+            JButton button = (JButton)event.getSource();
+            String workingButton = button.getName();
+            char workingChar = workingButton.charAt(6);
+            char workingChar2 = workingButton.charAt(7);
+            int row = Integer.parseInt(String.valueOf(workingChar));
+            int col = Integer.parseInt(String.valueOf(workingChar2));
+            model.makeMark(row,col);
+            view.updateSquares();
+            if(model.getResult().equals(TicTacToeModel.Result.X)||model.getResult().equals(TicTacToeModel.Result.O)||model.getResult().equals(TicTacToeModel.Result.TIE)){
+                view.showResult(model.getResult().toString());
+                view.disableSquares();
+            }
+            else{
+                
+            }
+        }
+    
 }
